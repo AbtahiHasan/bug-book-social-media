@@ -7,8 +7,9 @@ import prisma from "@/lib/prisma";
 import { lucia } from "@/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { isRedirectError } from "next/dist/client/components/redirect";
 
-export async function name(
+export async function SignUp(
   credentials: SignUpValues,
 ): Promise<{ error: string }> {
   try {
@@ -74,6 +75,7 @@ export async function name(
     return redirect("/");
   } catch (error) {
     console.error(error);
+    if (isRedirectError(error)) throw error;
     return {
       error: "something went wrong, please try again",
     };
