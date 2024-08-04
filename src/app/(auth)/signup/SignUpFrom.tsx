@@ -11,10 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 import { PasswordInput } from "@/components/ui/password-input";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { useState, useTransition } from "react";
+import { signUp } from "./actions";
 
 const SignUpFrom = () => {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string>("");
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -24,7 +29,17 @@ const SignUpFrom = () => {
     },
   });
 
-  const onSubmit = async (values: SignUpValues) => {};
+  const onSubmit = async (values: SignUpValues) => {
+    startTransition(async () => {
+      const { error } = await signUp({
+        username: values.email,
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) setError(error);
+    });
+  };
 
   return (
     <Form {...form}>
@@ -70,9 +85,10 @@ const SignUpFrom = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        {error && <p className="text-destructive">{error}</p>}
+        <LoadingButton loading={isPending} type="submit" className="w-full">
           Create Account
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );
