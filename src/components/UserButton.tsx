@@ -3,22 +3,28 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useSession } from "@/app/(main)/SessionProvider";
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
-import { LogOutIcon, UserIcon } from "lucide-react";
+import { LogOutIcon, Monitor, Moon, Sun, UserIcon } from "lucide-react";
 import UserAvatar from "./UserAvatar";
 import { logout } from "@/app/(auth)/actions";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 interface UserButtonProps {
   className?: string;
 }
 
 const UserButton = ({ className }: UserButtonProps) => {
+  const { theme, setTheme } = useTheme();
   const { user } = useSession();
   return (
     <DropdownMenu>
@@ -36,6 +42,29 @@ const UserButton = ({ className }: UserButtonProps) => {
             Profile
           </DropdownMenuItem>
         </Link>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <Monitor className="mr-2 size-4" />
+            Themes
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <Monitor className="mr-2 size-4" />
+                System default
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun className="mr-2 size-4" />
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon className="mr-2 size-4" />
+                Dark
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
