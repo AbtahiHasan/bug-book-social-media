@@ -22,7 +22,7 @@ const Page = () => {
             </p>
           </div>
           <SignUpFrom />
-          <Link href="login">
+          <Link href="/login">
             <p className="text-center text-muted-foreground">
               Already have an account? Log in
             </p>

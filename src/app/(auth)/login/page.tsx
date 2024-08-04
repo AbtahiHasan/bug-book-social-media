@@ -21,7 +21,7 @@ const Page = () => {
             </p>
           </div>
           <LoginFrom />
-          <Link href="login">
+          <Link href="/signup">
             <p className="text-center text-muted-foreground">
               Don&apos;t have an account? Sign up
             </p>
