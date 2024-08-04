@@ -1,7 +1,5 @@
-
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -11,25 +9,36 @@ datasource db {
 }
 
 model User {
-  id String @id 
-  username String @unique
+  id          String    @id
+  username    String    @unique
   displayName String
-  email String? @unique
-  password String? 
-  googleId String?
-  avaterUrl String?
-  bio String?
-  sessions Session[]
-  createAt DateTime @default(now())
+  email       String?   @unique
+  password    String?
+  googleId    String?
+  avatarUrl   String?
+  bio         String?
+  sessions    Session[]
+  posts       Post[]
+  createAt    DateTime  @default(now())
 
   @@map("users")
 }
 
 model Session {
-  id String @id 
-  userId String
+  id        String   @id
+  userId    String
   expiresAt DateTime
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("sessions")
+}
+
+model Post {
+  id       String   @id @default(cuid())
+  content  String
+  userId   String
+  user     User     @relation(fields: [userId], references: [id])
+  createAt DateTime @default(now())
+
+  @@map("posts")
 }
