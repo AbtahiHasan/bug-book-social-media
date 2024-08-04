@@ -1,5 +1,5 @@
 const Page = () => {
-  return <main>Front page</main>;
+  return <main className="h-[200vh]">Front page</main>;
 };
 
 export default Page;
