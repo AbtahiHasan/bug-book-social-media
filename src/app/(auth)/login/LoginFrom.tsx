@@ -1,7 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, SignUpValues } from "@/lib/validation";
+import {
+  loginSchema,
+  LoginValues,
+  signUpSchema,
+  SignUpValues,
+} from "@/lib/validation";
 import {
   Form,
   FormControl,
@@ -15,25 +20,23 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { LoadingButton } from "@/components/ui/loading-button";
 import { useState, useTransition } from "react";
-import { signUp } from "./actions";
+import { login } from "./actions";
 
-const SignUpFrom = () => {
+const LoginFrom = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
-  const form = useForm<SignUpValues>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       username: "",
-      email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (values: SignUpValues) => {
+  const onSubmit = async (values: LoginValues) => {
     startTransition(async () => {
-      const { error } = await signUp({
+      const { error } = await login({
         username: values.username,
-        email: values.email,
         password: values.password,
       });
 
@@ -58,18 +61,6 @@ const SignUpFrom = () => {
         />
         <FormField
           control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="email" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -87,11 +78,11 @@ const SignUpFrom = () => {
         />
         {error && <p className="text-destructive">{error}</p>}
         <LoadingButton loading={isPending} type="submit" className="w-full">
-          Create Account
+          Log in
         </LoadingButton>
       </form>
     </Form>
   );
 };
 
-export default SignUpFrom;
+export default LoginFrom;
