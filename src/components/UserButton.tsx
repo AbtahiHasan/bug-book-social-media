@@ -18,6 +18,7 @@ import UserAvatar from "./UserAvatar";
 import { logout } from "@/app/(auth)/actions";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { QueryClient } from "@tanstack/react-query";
 
 interface UserButtonProps {
   className?: string;
@@ -26,6 +27,7 @@ interface UserButtonProps {
 const UserButton = ({ className }: UserButtonProps) => {
   const { theme, setTheme } = useTheme();
   const { user } = useSession();
+  const queryClient = new QueryClient();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -71,6 +73,7 @@ const UserButton = ({ className }: UserButtonProps) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
+            queryClient.clear();
             logout();
           }}
         >
