@@ -18,7 +18,7 @@ const ForYouFeed = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["posts-feed", "for-you"],
+    queryKey: ["post-feed", "for-you"],
     queryFn: ({ pageParam }) =>
       kyInstance
         .get(
@@ -33,6 +33,12 @@ const ForYouFeed = () => {
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   if (status === "pending") return <PostsLoadingSkeleton />;
+  if (status === "success" && posts.length === 0 && !hasNextPage)
+    return (
+      <p className="text-center text-muted-foreground">
+        No one has posted yet.
+      </p>
+    );
   if (status === "error") return <p>An error ocurred whole post is loading</p>;
 
   console.log({ data: data?.pages });
