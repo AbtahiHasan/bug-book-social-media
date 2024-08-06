@@ -1,9 +1,10 @@
 "use client";
 
 import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
+
 import Post from "@/components/posts/Post";
 import PostsLoadingSkeleton from "@/components/posts/PostsLoadingSkeleton";
-import { Button } from "@/components/ui/button";
+
 import kyInstance from "@/lib/ky";
 import { IPostPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
