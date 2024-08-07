@@ -20,3 +20,8 @@ export interface IPostPage {
   posts: TPost[];
   nextCursor: string | null;
 }
+
+export interface FollowerInfo {
+  followers: number;
+  isFollowedByUser: boolean;
+}
