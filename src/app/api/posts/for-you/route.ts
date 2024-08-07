@@ -1,6 +1,6 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { IPostPage, postDataInclude } from "@/lib/types";
+import { IPostPage, getPostDataInclude } from "@/lib/types";
 import { NextRequest } from "next/server";
 
 export const GET = async (req: NextRequest) => {
@@ -12,7 +12,7 @@ export const GET = async (req: NextRequest) => {
       return Response.json({ error: "Something went wrong" }, { status: 500 });
 
     const posts = await prisma.post.findMany({
-      include: postDataInclude,
+      include: getPostDataInclude(user.id),
       orderBy: {
         createAt: "desc",
       },
