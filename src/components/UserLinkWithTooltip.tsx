@@ -5,6 +5,7 @@ import { TUser } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import Link from "next/link";
+import UserTooltip from "./UserTooltip";
 
 interface UserLinkWithTooltipProps extends React.PropsWithChildren {
   username: string;
@@ -30,9 +31,14 @@ const UserLinkWithTooltip = ({
 
   //   return <UserToo;
   return (
-    <Link className="text-primary hover:underline" href={`/users/${username}`}>
-      {children}
-    </Link>
+    <UserTooltip user={data}>
+      <Link
+        className="text-primary hover:underline"
+        href={`/users/${username}`}
+      >
+        {children}
+      </Link>
+    </UserTooltip>
   );
 };
 
