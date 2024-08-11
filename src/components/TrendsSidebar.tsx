@@ -10,6 +10,7 @@ import { unstable_cache } from "next/cache";
 import { formatNumber } from "@/lib/utils";
 import { getUserDataSelect } from "@/lib/types";
 import FollowButton from "./FollowButton";
+import UserTooltip from "./UserTooltip";
 
 const TrendsSidebar = () => {
   return (
@@ -48,20 +49,22 @@ const WhoToFollow = async () => {
           key={user.username}
           className="flex items-center justify-between gap-3"
         >
-          <Link
-            href={`/users/${user.username}`}
-            className="flex items-center gap-3"
-          >
-            <UserAvatar avatarUrl={user.avatarUrl} className="flex-none" />
-            <div>
-              <p className="hover-underline line-clamp-1 break-all font-semibold">
-                {user.displayName}
-              </p>
-              <p className="line-clamp-1 break-all text-muted-foreground">
-                @{user.username}
-              </p>
-            </div>
-          </Link>
+          <UserTooltip user={user}>
+            <Link
+              href={`/users/${user.username}`}
+              className="flex items-center gap-3"
+            >
+              <UserAvatar avatarUrl={user.avatarUrl} className="flex-none" />
+              <div>
+                <p className="hover-underline line-clamp-1 break-all font-semibold">
+                  {user.displayName}
+                </p>
+                <p className="line-clamp-1 break-all text-muted-foreground">
+                  @{user.username}
+                </p>
+              </div>
+            </Link>
+          </UserTooltip>
           <FollowButton
             userId={user.id}
             initialState={{
@@ -102,7 +105,7 @@ const TrendingTopics = async () => {
   const trendingTopics = await getTrendingTopics();
   return (
     <div className="space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-      <div className="text-xl font-semibold">Who to follow</div>
+      <div className="text-xl font-semibold">Trending Topics</div>
       {trendingTopics?.map(({ hashtag, count }) => {
         const title = hashtag.split("#")[1];
         return (
