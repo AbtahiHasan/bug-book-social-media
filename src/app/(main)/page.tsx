@@ -8,7 +8,7 @@ import FollowingFeed from "./FollowingFeed";
 
 const PostEditor = dynamic(
   () => import("@/components/posts/editor/PostEditor"),
-  { ssr: false, loading: () => <p>Loading...</p> },
+  { ssr: false, loading: () => <p> Loading... </p> },
 );
 
 const Page = () => {
